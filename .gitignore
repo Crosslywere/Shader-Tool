@@ -5,6 +5,7 @@ obj
 *.vcxproj*
 *.pdb
 *.obj
+*.ini
 # Tests
 test
 test.*
