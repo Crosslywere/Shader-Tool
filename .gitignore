@@ -5,3 +5,6 @@ obj
 *.vcxproj*
 *.pdb
 *.obj
+# Tests
+test
+test.*
