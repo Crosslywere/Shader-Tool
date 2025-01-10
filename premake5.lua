@@ -65,7 +65,14 @@ workspace "ShaderTool"
 		files {
 			"%{prj.name}/src/**.cpp",
 			"%{prj.name}/src/**.hpp",
-			"%{prj.name}/res/**.glsl"
+			"%{prj.name}/res/**.glsl",
+			-- ImGui Stuff
+			"vendor/imgui/imgui*.h",
+			"vendor/imgui/imgui*.cpp",
+			"vendor/imgui/backends/imgui_impl_glfw.h",
+			"vendor/imgui/backends/imgui_impl_glfw.cpp",
+			"vendor/imgui/backends/imgui_impl_opengl3.h",
+			"vendor/imgui/backends/imgui_impl_opengl3.cpp"
 		}
 		vpaths {
 			["Source"] = "**.cpp",
@@ -76,7 +83,9 @@ workspace "ShaderTool"
 			"%{prj.name}/src",
 			"vendor/glfw/include",
 			"vendor/glad/include",
-			"vendor/glm"
+			"vendor/glm",
+			"vendor/imgui",
+			"vendor/imgui/backends"
 		}
 		links {
 			"glfw",
