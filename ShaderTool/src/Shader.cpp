@@ -57,20 +57,20 @@ Shader::Shader(const std::string& vertexShaderFile, const std::string& fragmentS
 }
 
 Shader::~Shader() {
-	if (m_Program != 0) {
-		glDeleteProgram(m_Program);
-		m_Program = 0;
+	if (m_ProgramObject != 0) {
+		glDeleteProgram(m_ProgramObject);
+		m_ProgramObject = 0;
 	}
 }
 
 void Shader::Bind() const {
-	glUseProgram(m_Program);
+	glUseProgram(m_ProgramObject);
 }
 
 void Shader::Reload() {
-	if (m_Program != 0)
-		glDeleteProgram(m_Program);
-	m_Program = glCreateProgram();
+	if (m_ProgramObject != 0)
+		glDeleteProgram(m_ProgramObject);
+	m_ProgramObject = glCreateProgram();
 	auto vs = LoadShaderFromFile(m_VertexFilePath, GL_VERTEX_SHADER);
 	auto fs = LoadShaderFromFile(m_FragmentFilePath, GL_FRAGMENT_SHADER);
 	if (vs == 0 || fs == 0) {
@@ -84,9 +84,9 @@ void Shader::Reload() {
 	if (IsVertexError() || IsFragmentError()) {
 		return;
 	}
-	glAttachShader(m_Program, vs);
-	glAttachShader(m_Program, fs);
-	glLinkProgram(m_Program);
+	glAttachShader(m_ProgramObject, vs);
+	glAttachShader(m_ProgramObject, fs);
+	glLinkProgram(m_ProgramObject);
 	glDeleteShader(vs);
 	glDeleteShader(fs);
 }
@@ -117,7 +117,7 @@ void Shader::SetUniform3f(const std::string& name, float v1, float v2, float v3)
 
 int Shader::GetUniformLocation(const std::string& name) {
 	if (m_UniformMap.find(name) == m_UniformMap.end()) {
-		int loc = glGetUniformLocation(m_Program, name.c_str());
+		int loc = glGetUniformLocation(m_ProgramObject, name.c_str());
 		m_UniformMap.insert(std::make_pair(name, loc));
 	}
 	return m_UniformMap.at(name);
@@ -142,10 +142,10 @@ FrameBufferShader::FrameBufferShader(const std::string& fragmentFilePath) : m_Fi
 }
 
 void FrameBufferShader::Reload() {
-	if (m_Program != 0)
-		glDeleteProgram(m_Program);
-	m_Program = glCreateProgram();
-	glAttachShader(m_Program, s_DefaultVertexShader);
+	if (m_ProgramObject != 0)
+		glDeleteProgram(m_ProgramObject);
+	m_ProgramObject = glCreateProgram();
+	glAttachShader(m_ProgramObject, s_DefaultVertexShader);
 	auto fs = LoadShaderFromFile(m_FilePath, GL_FRAGMENT_SHADER);
 	if (fs == 0) {
 		m_ErrorStr = "Unable to load file";
@@ -156,8 +156,8 @@ void FrameBufferShader::Reload() {
 	if (IsError()) {
 		return;
 	}
-	glAttachShader(m_Program, fs);
-	glLinkProgram(m_Program);
+	glAttachShader(m_ProgramObject, fs);
+	glLinkProgram(m_ProgramObject);
 	glDeleteShader(fs);
 	m_UniformMap.clear();
 }

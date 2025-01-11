@@ -24,7 +24,7 @@ public:
 	inline const std::string_view& GetErrorStr() const { return m_ErrorStr; }
 protected:
 	int GetUniformLocation(const std::string& name);
-	unsigned int m_Program{};
+	unsigned int m_ProgramObject{};
 	std::string m_ErrorStr{};
 	std::unordered_map<std::string, int> m_UniformMap;
 private:
